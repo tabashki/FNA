@@ -222,30 +222,30 @@ namespace Microsoft.Xna.Framework.Graphics
 
 		#region Depth Resolve Extension
 
-		public Texture2D ResolveDepthToTextureEXT(GraphicsDevice graphicsDevice)
+		public void ResolveDepthEXT(GraphicsDevice graphicsDevice, Texture2D targetTexture)
 		{
 			if (DepthStencilFormat == DepthFormat.None)
 			{
 				throw new InvalidOperationException(
-					"Cannot RenderTarget with no depth"
+					"Cannot resolve RenderTarget with no Depth buffer"
 				);
 			}
 
-			var depthTexture = new Texture2D(
-				graphicsDevice,
-				Width, Height,
-				false,
-				(DepthStencilFormat == DepthFormat.Depth16) ?
-					SurfaceFormat.UShortEXT : SurfaceFormat.Single
-			);
+			var compatibleFormat = (DepthStencilFormat == DepthFormat.Depth16) ?
+				SurfaceFormat.UShortEXT : SurfaceFormat.Single;
+
+			if (targetTexture.Format != compatibleFormat)
+			{
+				throw new InvalidOperationException(
+					"Cannot resolve Depth to texture with incompatible surface format"
+				);
+			}
 
 			FNA3D.FNA3D_ResolveDepthEXT(
 				graphicsDevice.GLDevice,
 				glDepthStencilBuffer,
-				depthTexture.texture
+				targetTexture.texture
 			);
-
-			return depthTexture;
 		}
 
 		#endregion

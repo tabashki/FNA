@@ -6,7 +6,8 @@
 	url = https://github.com/FNA-XNA/FAudio
 [submodule "lib/FNA3D"]
 	path = lib/FNA3D
-	url = https://github.com/FNA-XNA/FNA3D
+	url = https://github.com/tabashki/FNA3D
+	branch = depth-to-texture
 [submodule "lib/Theorafile"]
 	path = lib/Theorafile
 	url = https://github.com/FNA-XNA/Theorafile

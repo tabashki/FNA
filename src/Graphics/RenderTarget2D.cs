@@ -219,5 +219,35 @@ namespace Microsoft.Xna.Framework.Graphics
 		}
 
 		#endregion
+
+		#region Depth Resolve Extension
+
+		public Texture2D ResolveDepthToTextureEXT(GraphicsDevice graphicsDevice)
+		{
+			if (DepthStencilFormat == DepthFormat.None)
+			{
+				throw new InvalidOperationException(
+					"Cannot RenderTarget with no depth"
+				);
+			}
+
+			var depthTexture = new Texture2D(
+				graphicsDevice,
+				Width, Height,
+				false,
+				(DepthStencilFormat == DepthFormat.Depth16) ?
+					SurfaceFormat.UShortEXT : SurfaceFormat.Single
+			);
+
+			FNA3D.FNA3D_ResolveDepthEXT(
+				graphicsDevice.GLDevice,
+				glDepthStencilBuffer,
+				depthTexture.texture
+			);
+
+			return depthTexture;
+		}
+
+		#endregion
 	}
 }

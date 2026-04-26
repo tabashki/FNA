@@ -150,6 +150,7 @@
 		<Compile Include="src\Graphics\ColorWriteChannels.cs" />
 		<Compile Include="src\Graphics\CubeMapFace.cs" />
 		<Compile Include="src\Graphics\DepthFormat.cs" />
+		<Compile Include="src\Graphics\DepthTexture.cs" />
 		<Compile Include="src\Graphics\DeviceLostException.cs" />
 		<Compile Include="src\Graphics\DeviceNotResetException.cs" />
 		<Compile Include="src\Graphics\DirectionalLight.cs" />

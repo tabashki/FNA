@@ -44,6 +44,12 @@ namespace Microsoft.Xna.Framework.Graphics
 			}
 		}
 
+		public DepthTexture? DepthTextureEXT
+		{
+			get;
+			private set;
+		}
+
 		#endregion
 
 		#region IRenderTarget Properties
@@ -144,6 +150,7 @@ namespace Microsoft.Xna.Framework.Graphics
 				MathHelper.ClosestMSAAPower(preferredMultiSampleCount)
 			);
 			RenderTargetUsage = usage;
+			DepthTextureEXT = null;
 
 			if (MultiSampleCount > 0)
 			{
@@ -163,13 +170,27 @@ namespace Microsoft.Xna.Framework.Graphics
 				return;
 			}
 
+			int allowDepthSampling = (usage == RenderTargetUsage.AllowDepthSamplingEXT ? 1 : 0);
 			glDepthStencilBuffer = FNA3D.FNA3D_GenDepthStencilRenderbuffer(
 				graphicsDevice.GLDevice,
 				Width,
 				Height,
 				DepthStencilFormat,
-				MultiSampleCount
+				MultiSampleCount,
+				(byte) allowDepthSampling
 			);
+
+			if (allowDepthSampling == 1)
+			{
+				DepthTextureEXT = new DepthTexture(
+					graphicsDevice,
+					Width,
+					Height,
+					mipMap,
+					preferredDepthFormat,
+					glDepthStencilBuffer
+				);
+			}
 		}
 
 		#endregion
@@ -186,6 +207,10 @@ namespace Microsoft.Xna.Framework.Graphics
 					{
 						throw new InvalidOperationException("Disposing target that is still bound");
 					}
+				}
+				if (DepthTextureEXT != null)
+				{
+					DepthTextureEXT.Dispose();
 				}
 
 				IntPtr toDispose = Interlocked.Exchange(ref glColorBuffer, IntPtr.Zero);

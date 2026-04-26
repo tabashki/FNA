@@ -25,6 +25,10 @@ namespace Microsoft.Xna.Framework.Graphics
 		/// <summary>
 		/// The render target content might be preserved if the platform can do so without a penalty in performance or memory usage.
 		/// </summary>
-		PlatformContents
+		PlatformContents,
+		/// <summary>
+		/// Implies the same as `PlatformContents`, however additonally allows sampling the Depth Buffer as a texture.
+		/// </summary>
+		AllowDepthSamplingEXT,
 	}
 }

@@ -169,7 +169,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint FNA3D_PrepareWindowAttributes();
-		
+
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FNA3D_GetDrawableSize(
 			IntPtr window,
@@ -603,7 +603,14 @@ namespace Microsoft.Xna.Framework.Graphics
 			int width,
 			int height,
 			DepthFormat format,
-			int multiSampleCount
+			int multiSampleCount,
+			byte allowDepthSampling
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr FNA3D_GetRenderbufferDepthTexture(
+			IntPtr device,
+			IntPtr renderbuffer
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -844,7 +851,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			FNA3D_SetStringMarker(device, utf8Text);
 			Marshal.FreeHGlobal((IntPtr) utf8Text);
 		}
-		
+
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe void FNA3D_SetTextureName(
 			IntPtr device,
@@ -855,7 +862,7 @@ namespace Microsoft.Xna.Framework.Graphics
 		public static unsafe void FNA3D_SetTextureName(
 			IntPtr device,
 			IntPtr texture,
-			string text 
+			string text
 		) {
 			byte* utf8Text = SDL2.SDL.Utf8EncodeHeap(text);
 			FNA3D_SetTextureName(device, texture, utf8Text);

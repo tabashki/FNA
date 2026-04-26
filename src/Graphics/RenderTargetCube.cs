@@ -198,13 +198,17 @@ namespace Microsoft.Xna.Framework.Graphics
 				return;
 			}
 
+			int allowDepthSampling = (usage == RenderTargetUsage.AllowDepthSamplingEXT ? 1 : 0);
 			glDepthStencilBuffer = FNA3D.FNA3D_GenDepthStencilRenderbuffer(
 				graphicsDevice.GLDevice,
 				Size,
 				Size,
 				DepthStencilFormat,
-				MultiSampleCount
+				MultiSampleCount,
+				(byte) allowDepthSampling
 			);
+
+			// TODO: Implement DepthTextureEXT for cube render targets too
 		}
 
 		#endregion
